@@ -2,8 +2,10 @@ package com.example.demo.tree
 
 import com.example.demo.parse.SubTag
 import com.example.demo.parse.Tag
+import org.springframework.stereotype.Service
 import java.util.stream.IntStream
 
+@Service
 class NodeConverter {
     fun convert(nodes: List<com.example.demo.parse.Node>): List<Node> {
         var index:Int = 0
@@ -11,17 +13,17 @@ class NodeConverter {
         while (index < nodes.size) {
             when(nodes[index].tag) {
                 Tag.Variable -> {
-                    var andAdded:Boolean = false
+                    //var andAdded:Boolean = false
                     if(index>0) {
                         if(nodes[index-1].subtag==SubTag.Not||nodes[index-1].subtag==SubTag.Closing||nodes[index-1].subtag==SubTag.Variable) {
                             outNodes.add(BooleanOperator(Operator.AND, mutableListOf()))
-                            andAdded = true
+                            //andAdded = true
                         }
                     }
                     outNodes.add(LeafNode(nodes[index].symbol, false))
-                    if(andAdded) {
+                    /*if(andAdded) {
                         index++
-                    }
+                    }*/
                 }
                 Tag.Bracket, Tag.Operator -> {
                     outNodes.add(BooleanOperator(
